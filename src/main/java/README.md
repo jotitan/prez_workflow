@@ -1,9 +1,7 @@
-
-
 Les étapes du workflow
 
-* Ticket créé, en attente d'une assignation
-* En attente de traitement
+* En attente d'une assignation
+* En attente d'une action
 * Rejeté
 * Validé
 * Fermé
