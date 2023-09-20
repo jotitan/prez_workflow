@@ -16,7 +16,7 @@ public class WorkflowRunner {
         RulesEngineParameters parameters = new RulesEngineParameters();
         parameters.setSkipOnFirstAppliedRule(true);
         this.engine = new DefaultRulesEngine(parameters);
-        this.rules = createRules();
+        initRules();
     }
 
     public void assign(Ticket ticket, String user){
@@ -58,14 +58,13 @@ public class WorkflowRunner {
         this.engine.fire(this.rules, facts);
     }
 
-    private Rules createRules() {
-        Rules rules = new Rules();
+    private void initRules() {
+        this.rules = new Rules();
         rules.register(new DraftRule());
         rules.register(new WaitingManagerTicketRule());
         rules.register(new WaitingAssignmentTicketRule());
         rules.register(new WaitingActionTicketRule());
         rules.register(new WaitingCloseTicketRule());
-        return rules;
     }
 
 }
