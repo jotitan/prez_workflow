@@ -1,9 +1,7 @@
 package fr.titan.workflow;
 
 import fr.titan.workflow.model.Ticket;
-import fr.titan.workflow.rules.WaitingActionTicketRule;
-import fr.titan.workflow.rules.WaitingAssignmentTicketRule;
-import fr.titan.workflow.rules.WaitingCloseTicketRule;
+import fr.titan.workflow.rules.*;
 import org.jeasy.rules.api.Facts;
 import org.jeasy.rules.api.Rules;
 import org.jeasy.rules.api.RulesEngine;
@@ -27,6 +25,14 @@ public class WorkflowRunner {
 
     public void reject(Ticket ticket, String comment){
         genericExecute(ticket, null, false, comment);
+    }
+
+    public void submit(Ticket ticket){
+        genericExecute(ticket, null, null, null);
+    }
+
+    public void managerSubmission(Ticket ticket, boolean validate){
+        genericExecute(ticket, null, validate, null);
     }
 
     public void close(Ticket ticket){
@@ -54,6 +60,8 @@ public class WorkflowRunner {
 
     private Rules createRules() {
         Rules rules = new Rules();
+        rules.register(new DraftRule());
+        rules.register(new WaitingManagerTicketRule());
         rules.register(new WaitingAssignmentTicketRule());
         rules.register(new WaitingActionTicketRule());
         rules.register(new WaitingCloseTicketRule());

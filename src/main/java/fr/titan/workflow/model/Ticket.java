@@ -5,6 +5,10 @@ public class Ticket {
     private String comment;
     private Status status;
 
+    public Ticket(){
+        this.status = Status.DRAFT;
+    }
+
     public Ticket(Status status) {
         this.status = status;
     }

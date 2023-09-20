@@ -64,4 +64,38 @@ class WorkflowRunnerTest {
         Assertions.assertEquals(Status.CLOSED, ticket.getStatus());
     }
 
+    @Test
+    void whenRunCompleteWorkflowFromDraft(){
+        // GIVEN
+        Ticket ticket = new Ticket();
+        String userAssign = "User Assign";
+        // WHEN
+        runner.submit(ticket);
+        runner.managerSubmission(ticket, true);
+        runner.assign(ticket, userAssign);
+        runner.reject(ticket, "Demande incorrecte");
+        runner.close(ticket);
+
+        // THEN
+        Assertions.assertEquals(Status.CLOSED, ticket.getStatus());
+    }
+
+    @Test
+    void whenDoubleRunCompleteWorkflowFromDraft(){
+        // GIVEN
+        Ticket ticket = new Ticket();
+        String userAssign = "User Assign";
+        // WHEN
+        runner.submit(ticket);
+        runner.managerSubmission(ticket, false);
+        runner.submit(ticket);
+        runner.managerSubmission(ticket, true);
+        runner.assign(ticket, userAssign);
+        runner.reject(ticket, "Demande incorrecte");
+        runner.close(ticket);
+
+        // THEN
+        Assertions.assertEquals(Status.CLOSED, ticket.getStatus());
+    }
+
 }
